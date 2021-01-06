@@ -10,14 +10,14 @@ platform :ios do
         plist_version = get_version_number_from_plist(xcodeproj: './ios/ReactNativeFastlane.xcodeproj')
         if Gem::Version.new(plist_version.to_f) == Gem::Version.new(app_store_version.to_f)
             UI.message "Bumping minor"
-            increment_version_number_in_plist(xcodeproj: './ios/ReactNativeFastlane.xcodeproj', bump_type: 'minor')
+            increment_version_number(xcodeproj: './ios/ReactNativeFastlane.xcodeproj', bump_type: 'minor')
         else
             UI.message "Bumping patch"
-            increment_version_number_in_plist(xcodeproj: './ios/ReactNativeFastlane.xcodeproj', bump_type: 'patch')
+            increment_version_number(xcodeproj: './ios/ReactNativeFastlane.xcodeproj', bump_type: 'patch')
         end
     end
     private_lane :staging_build do
-        increment_build_number_in_plist(xcodeproj: './ios/fastlaneTest.xcodeproj', target:  'ReactNativeFastlane')
+        increment_build_number(xcodeproj: './ios/fastlaneTest.xcodeproj', target:  'ReactNativeFastlane')
         gym(scheme: 'fastlaneTest', workspace: './ios/fastlaneTest.xcworkspace')
     end
 
