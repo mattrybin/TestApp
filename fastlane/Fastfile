@@ -17,7 +17,7 @@ platform :ios do
         end
     end
     private_lane :staging_build do
-        increment_build_number(xcodeproj: './ios/fastlaneTest.xcodeproj', target:  'ReactNativeFastlane')
+        increment_build_number(xcodeproj: './ios/fastlaneTest.xcodeproj')
         gym(scheme: 'fastlaneTest', workspace: './ios/fastlaneTest.xcworkspace')
     end
 

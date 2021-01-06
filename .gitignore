@@ -4,6 +4,7 @@
 
 # Xcode
 #
+fastlane/report.xml
 build/
 *.pbxuser
 !default.pbxuser
