@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "android": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -wipe-data -delay-adb -avd Pixel_4_XL_API_29\" \"adb wait-for-device install 'builds/android/app-debug.apk' && adb shell am start -n com.fastlanetest/.MainActivity\"",
     "test:e2e": "detox test -c ios.sim.debug",
     "build:e2e": "detox build -c ios.sim.debug",
     "ci:test:e2e": "detox test -c ios.sim.release -l verbose --cleanup",
@@ -33,6 +34,7 @@
     "appcenter": "^4.0.2",
     "appcenter-analytics": "^4.0.2",
     "appcenter-crashes": "^4.0.2",
+    "concurrently": "^5.3.0",
     "expo-localization": "^9.1.0",
     "i18n-js": "^3.8.0",
     "mobx": "^6.0.4",
