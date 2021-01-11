@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -wipe-data -delay-adb -avd Pixel_4_XL_API_29\" \"adb wait-for-device install 'builds/android/app-debug.apk' && adb shell am start -n com.fastlanetest/.MainActivity\"",
+    "test:android": "./scripts/download-android.sh",
     "test:e2e": "detox test -c ios.sim.debug",
     "build:e2e": "detox build -c ios.sim.debug",
     "ci:test:e2e": "detox test -c ios.sim.release -l verbose --cleanup",
