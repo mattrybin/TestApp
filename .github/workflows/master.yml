@@ -16,6 +16,6 @@ jobs:
         with:
           node-version: 12
       - run: |
-          yarn
+          yarn install --network-timeout 1000000
           yarn lint
         name: Build and Test
