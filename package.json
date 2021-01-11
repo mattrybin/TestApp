@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "release": "standard-version",
     "android": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -wipe-data -delay-adb -avd Pixel_4_XL_API_29\" \"adb wait-for-device install 'builds/android/app-debug.apk' && adb shell am start -n com.fastlanetest/.MainActivity\"",
     "test:android": "./scripts/download-android.sh",
     "test:e2e": "detox test -c ios.sim.debug",
@@ -97,6 +98,7 @@
     "react-test-renderer": "^17.0.1",
     "rimraf": "3.0.2",
     "solidarity": "3.0.0",
+    "standard-version": "^9.1.0",
     "typescript": "4.1.3",
     "utf-8-validate": "5.0.3"
   },
