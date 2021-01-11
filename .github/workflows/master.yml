@@ -6,16 +6,16 @@ on:
 
 jobs:
   build:
-  runs-on: macos-latest
-  name: Build and test
-  steps:
-    - uses: actions/checkout@v2
-      name: Check out repository
-    - uses: actions/setup-node@v1
-      name: Set up Node.js
-      with:
-        node-version: 12
-    - run: |
-        yarn
-        yarn lint
-      name: Build and Test
+    runs-on: macos-latest
+    name: Build and test
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out repository
+      - uses: actions/setup-node@v1
+        name: Set up Node.js
+        with:
+          node-version: 12
+      - run: |
+          yarn
+          yarn lint
+        name: Build and Test
