@@ -13,19 +13,13 @@ on:
         default: 'The Octoverse'
 
 jobs:
-  nightly-merge:
-
+  merge-branch:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Nightly Merge
-      uses: robotology/gh-action-nightly-merge@v1.3.1
-      with:
-        stable_branch: 'next'
-        development_branch: 'master'
-        allow_ff: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: everlytic/branch-merge@1.1.0
+        with:
+          github_token: ${{ github.token }}
+          source_ref: ${{ github.ref }}
+          target_branch: 'next'
+          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
