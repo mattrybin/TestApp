@@ -1,8 +1,6 @@
 name: 'Next Merge'
 
-on:
-  repository_dispatch:
-    types: [docker-build]
+on: workflow_dispatch
 
 jobs:
   merge-branch:
