@@ -19,3 +19,7 @@ jobs:
           yarn install --network-timeout 1000000
           yarn lint
         name: Build and Test
+      - name: Push to next branch
+        uses: actions-x/commit@v2
+        with:
+          branch: next
