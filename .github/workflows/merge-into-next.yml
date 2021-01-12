@@ -1,11 +1,8 @@
 name: 'Next Merge'
 
 on:
-  workflow_run:
-    workflows: ["Build and test"]
-    branches: [master]
-    types: 
-      - completed
+  repository_dispatch:
+    types: [docker-build]
 
 jobs:
   merge-branch:
