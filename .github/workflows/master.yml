@@ -19,6 +19,12 @@ jobs:
           yarn install --network-timeout 1000000
           yarn lint
         name: Build and Test
+      - name: Invoke workflow without inputs
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Next Merge
+          token: ${{ secrets.PERSONAL_TOKEN }}
+
       # - name: Push to next branch
       #   uses: actions-x/commit@v2
       #   with:
