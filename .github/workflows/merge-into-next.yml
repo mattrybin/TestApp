@@ -1,16 +1,11 @@
 name: 'Next Merge'
 
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Person to greet'
-        required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false
-        default: 'The Octoverse'
+  workflow_run:
+    workflows: ["Build and test"]
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   merge-branch:
