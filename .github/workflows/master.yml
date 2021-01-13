@@ -17,7 +17,7 @@ jobs:
           node-version: 12
       - name: Build and Test
         run: |
-          yarn install --network-timeout 1000000
+          yarn install --frozen-lockfile --network-timeout 1000000
           yarn lint
 
   trigger_next_branch:
