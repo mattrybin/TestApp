@@ -5,6 +5,7 @@ on: workflow_dispatch
 jobs:
   merge-branch:
     runs-on: ubuntu-latest
+    name: Merge master branch
     steps:
       - uses: actions/checkout@v2
       - uses: everlytic/branch-merge@1.1.0
