@@ -13,3 +13,4 @@ jobs:
           github_token: ${{ github.token }}
           source_ref: ${{ github.ref }}
           target_branch: 'next'
+          commit_message_template: '[CI] Merged {source_ref} into target {target_branch}'
