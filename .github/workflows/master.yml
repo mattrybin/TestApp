@@ -23,6 +23,7 @@ jobs:
   trigger_next_branch:
     runs-on: ubuntu-latest
     name: Trigger Next Branch
+    needs: build
     steps:
       - name: Trigger next branch
         uses: benc-uk/workflow-dispatch@v1
