@@ -1,4 +1,4 @@
-name: 'Next Merge'
+name: 'Merge master into next branch'
 
 on: workflow_dispatch
 
@@ -12,4 +12,3 @@ jobs:
           github_token: ${{ github.token }}
           source_ref: ${{ github.ref }}
           target_branch: 'next'
-          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
