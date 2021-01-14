@@ -21,9 +21,9 @@ jobs:
           yarn install --frozen-lockfile --network-timeout 1000000
           # yarn lint
           npm install -g appcenter-cli
-          INPUT=$(appcenter build queue -b master --app "MattRybin/TestApp-1" --output json | jq ".buildId")
-          chmod +x scripts/wait-on-app-center-build.sh
-          ./scripts/wait-on-app-center-build.sh $INPUT
+          # INPUT=$(appcenter build queue -b master --app "MattRybin/TestApp-1" --output json | jq ".buildId")
+          # chmod +x scripts/wait-on-app-center-build.sh
+          # ./scripts/wait-on-app-center-build.sh $INPUT
 
   trigger_next_branch:
     runs-on: ubuntu-latest
