@@ -1,8 +1,9 @@
 name: Commits pushed to next branch
 
-on:
-  push:
-    branches: [next]
+on: workflow_dispatch
+# on:
+#   push:
+#     branches: [next]
 
 jobs:
   build:
