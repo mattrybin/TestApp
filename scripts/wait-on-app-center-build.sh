@@ -12,12 +12,12 @@ INPUT=$(appcenter build branches list --output json)
 # INPUT='[{"sourceBranch":"master","buildNumber":"4","status":"completed","result":"succeeded","author":"Matt Rybin <workmateuszrybin@gmail.com>","message":"chore: update android app_secret","sha":"a152db8596f1dc9868bd30d61b23fd9a75b1943b","url":"https://appcenter.ms/users/MattRybin/apps/TestApp-1/build/branches/master/builds/4"}]'
 STATUS=$(echo $INPUT | jq --raw-output "[.[] | {buildNumber,status,result} | select(.status==\"completed\") | select(.buildNumber==\"$1\")]")
 if [ "$STATUS" == "[]" ]; then
-    echo "Waiting"
+    echo "Waiting on build number: $1"
     false
 else
     RESULT=$(echo $STATUS | jq --raw-output ".[].result")
     if [ "$RESULT" == "succeeded" ]; then
-        echo "Build finish"
+        echo "Build finish for build number: $1"
         true
     else
         true
