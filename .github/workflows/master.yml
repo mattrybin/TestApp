@@ -17,8 +17,15 @@ jobs:
           node-version: 12
       - name: Build and Test
         run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+          export APPCENTER_ACCESS_TOKEN=dc1743315f0c7b5cae0fc58fa8e7cf2456ee0d18
           yarn install --frozen-lockfile --network-timeout 1000000
-          yarn lint
+          # yarn lint
+          npm install -g appcenter-cli
+          INPUT=$(appcenter build queue -b master --app "MattRybin/TestApp-1" --output json | jq ".buildId")
+          chmod +x scripts/wait-on-app-center-build.sh
+          ./scripts/wait-on-app-center-build.sh $INPUT
 
   trigger_next_branch:
     runs-on: ubuntu-latest
