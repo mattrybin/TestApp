@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "207758102756",
+    "project_id": "epic-money---test",
+    "storage_bucket": "epic-money---test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207758102756:android:a3db15dd844a9dfcfcdcf1",
+        "android_client_info": {
+          "package_name": "com.fastlanetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207758102756-9d2qj8fpthnmtiuubsitqclqhtmv3uhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZpRiKgrEkbc9OtwHuGuTYMy0EZ_J6xlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207758102756-9d2qj8fpthnmtiuubsitqclqhtmv3uhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
