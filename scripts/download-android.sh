@@ -1,8 +1,10 @@
 echo "> Check latest successful build on master"
-build_id=$(curl -X GET "https://api.appcenter.ms/v0.1/apps/Epic-Money/Epic-Money/branches/master/builds" -H  "accept: application/json" -H  "X-API-Token: 2ce7d022f5532f0cb82334bba2c7418a7ddbfcca" | jq '[.[] | {id,result} | select(.result=="succeeded")][0] | .id')
+build_id=$(curl -X GET "https://api.appcenter.ms/v0.1/apps/MattRybin/TestApp-1/branches/master/builds" -H  "accept: application/json" -H  "X-API-Token: c87e90e0eb75aac62d050457c6fb24ca10c8d2e2" | jq '[.[] | {id,result} | select(.result=="succeeded")][0] | .id')
 echo ""
 echo "> Featching Download URL"
-url=$(curl -X GET "https://api.appcenter.ms/v0.1/apps/Epic-Money/Epic-Money/builds/$build_id/downloads/build" -H  "accept: application/json" -H  "X-API-Token: 2ce7d022f5532f0cb82334bba2c7418a7ddbfcca" | jq --raw-output '.uri')
+url=$(curl -X GET "https://api.appcenter.ms/v0.1/apps/MattRybin/TestApp-1/builds/$build_id/downloads/build" -H  "accept: application/json" -H  "X-API-Token: c87e90e0eb75aac62d050457c6fb24ca10c8d2e2" | jq --raw-output '.uri')
+echo $build_id
+echo $url
 echo ""
 echo "> Downloading the build"
 sleep 10
