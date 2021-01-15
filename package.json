@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "release": "standard-version",
-    "android": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -wipe-data -delay-adb -avd Pixel_4_XL_API_29\" \"adb wait-for-device install 'builds/android/app-debug.apk' && adb shell am start -n com.fastlanetest/.MainActivity\"",
+    "android": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -no-boot-anim -no-snapshot -wipe-data -delay-adb -avd Pixel_4_XL_API_29\" \"adb wait-for-device install 'builds/android/app-debug.apk' && adb shell am start -n com.fastlanetest/.MainActivity\"",
+    "android-test": "./scripts/download-android.sh && concurrently --kill-others-on-fail \"npx react-native start\" \"emulator -no-boot-anim -no-snapshot -wipe-data -delay-adb -avd Pixel_4_XL_API_29\"",
     "test:android": "./scripts/download-android.sh",
     "test:e2e": "detox test -c ios.sim.debug",
     "build:e2e": "detox build -c ios.sim.debug",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-firebase/auth": "^10.4.1",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@unimodules/core": "^6.0.0",
