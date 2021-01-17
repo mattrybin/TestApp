@@ -1,3 +1,4 @@
+# Update
 export MOBILE_CENTER_CURRENT_APP=MattRybin/TestApp-1
 function check {
 INPUT=$(appcenter build branches list --output json)
