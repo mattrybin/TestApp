@@ -8,9 +8,9 @@
     "invalidEmail": "Invalid email address."
   },
   "welcomeScreen": {
-    "poweredBy": "POWERED BY IGNITE",
+    "poweredBy": "EPIC MONEY LOGIN",
     "readyForLaunch": "Ready for launch.",
-    "continue": "CONTINUE"
+    "continue": "LOGIN WITH GOOGLE"
   },
   "demoScreen": {
     "howTo": "HOW TO",

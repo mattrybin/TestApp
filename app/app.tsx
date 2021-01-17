@@ -1,81 +1,103 @@
-/**
- * Welcome to the main entry point of the app. In this file, we'll
- * be kicking off our app.
- *
- * Most of this file is boilerplate and you shouldn't need to modify
- * it very often. But take some time to look through and understand
- * what is going on here.
- *
- * The app navigation resides in ./app/navigation, so head over there
- * if you're interested in adding screens and navigators.
- */
-import "./i18n"
-import "./utils/ignore-warnings"
-import React, { useState, useEffect, useRef } from "react"
-import { NavigationContainerRef } from "@react-navigation/native"
-import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
-import { initFonts } from "./theme/fonts" // expo
-import * as storage from "./utils/storage"
-import {
-  useBackButtonHandler,
-  RootNavigator,
-  canExit,
-  setRootNavigation,
-  useNavigationPersistence,
-} from "./navigation"
-import { RootStore, RootStoreProvider, setupRootStore } from "./models"
-import { ToggleStorybook } from "../storybook/toggle-storybook"
+/* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
+import './i18n'
+import './utils/ignore-warnings'
+import { auth, firestore } from "./services/firebase"
+import React from 'react'
+import { Pressable, Text, View } from 'react-native'
+import { enableScreens } from 'react-native-screens'
+import { GoogleSignin } from '@react-native-community/google-signin'
+import { DateTime } from 'luxon'
 
-// This puts screens in a native ViewController or Activity. If you want fully native
-// stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
-// https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
-import { enableScreens } from "react-native-screens"
+GoogleSignin.configure({
+  webClientId: '207758102756-9d2qj8fpthnmtiuubsitqclqhtmv3uhv.apps.googleusercontent.com',
+})
+
+async function onGoogleButtonPress() {
+  // Get the users ID token
+  const { idToken } = await GoogleSignin.signIn()
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential)
+}
+
 enableScreens()
 
-export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
+const blue = "blue"
 
-/**
- * This is the root component of our app.
- */
 function App() {
-  const navigationRef = useRef<NavigationContainerRef>()
-  const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = React.useState(true)
+  const [user, setUser] = React.useState()
 
-  setRootNavigation(navigationRef)
-  useBackButtonHandler(navigationRef, canExit)
-  const { initialNavigationState, onNavigationStateChange } = useNavigationPersistence(
-    storage,
-    NAVIGATION_PERSISTENCE_KEY,
-  )
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user)
+    if (initializing) setInitializing(false)
+  }
 
-  // Kick off initial async loading actions, like loading fonts and RootStore
-  useEffect(() => {
-    ;(async () => {
-      await initFonts() // expo
-      setupRootStore().then(setRootStore)
-    })()
+  React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    return subscriber
   }, [])
 
-  // Before we show the app, we have to wait for our state to be ready.
-  // In the meantime, don't render anything. This will be the background
-  // color set in native by rootView's background color. You can replace
-  // with your own loading component if you wish.
-  if (!rootStore) return null
+  const logout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log("User signed off"))
+  }
 
-  // otherwise, we're ready to render the app
-  return (
-    <ToggleStorybook>
-      <RootStoreProvider value={rootStore}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <RootNavigator
-            ref={navigationRef}
-            initialState={initialNavigationState}
-            onStateChange={onNavigationStateChange}
-          />
-        </SafeAreaProvider>
-      </RootStoreProvider>
-    </ToggleStorybook>
-  )
+  const addTransaction = ({ uid }) => () => {
+    console.log("add Transaction", uid)
+    firestore()
+      .collection('Users')
+      .doc(uid)
+      .collection("transactions")
+      .add({
+        calenderId: DateTime.local().toISODate(),
+        amount: 1000,
+        date: DateTime.local().toISO()
+      })
+      .then(() => {
+        console.log('User added!')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  if (initializing) return null
+
+  if (!user) {
+    return (
+      <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>
+        <View>
+          <Text style={{ fontSize: 40, fontWeight: "700", textAlign: "center" }}>Epic Money</Text>
+        </View>
+        <Pressable style={{ marginTop: 18, padding: 18, borderRadius: 6, borderColor: "#21262d", borderWidth: 1 }}
+          onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
+        >
+          <Text style={{ fontSize: 15, fontWeight: "600" }}>Login with Google</Text>
+        </Pressable>
+      </View>
+    )
+  } else {
+    return (
+      <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>
+        <Text style={{ fontSize: 24, fontWeight: "700", textAlign: "center" }}>Create Transaction</Text>
+        <Pressable style={{ marginTop: 18, padding: 18, borderRadius: 6, borderColor: "#21262d", borderWidth: 1 }} onPress={addTransaction(user)}>
+          <Text style={{ fontSize: 15, fontWeight: "700" }}>Create</Text>
+        </Pressable>
+        <Pressable style={{ marginTop: 18, padding: 18, borderRadius: 6, borderColor: "#21262d", borderWidth: 1 }} onPress={logout}>
+          <Text style={{ fontSize: 15, fontWeight: "600" }}>Logout</Text>
+        </Pressable>
+      </View>
+    )
+  }
+
 }
 
 export default App
