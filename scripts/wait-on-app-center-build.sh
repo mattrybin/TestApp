@@ -4,6 +4,8 @@ INPUT=$(appcenter build branches list --output json)
 STATUS=$(echo $INPUT | jq --raw-output "[.[] | {buildNumber,status,result} | select(.status==\"completed\") | select(.buildNumber==\"$1\") | select(.sourceBranch==\"master\")]")
 if [ "$STATUS" == "[]" ]; then
     echo "Waiting on build number: $1"
+    echo $INPUT
+    echo $STATUS
     false
 else
     RESULT=$(echo $STATUS | jq --raw-output ".[].result")
