@@ -4,7 +4,7 @@ import './i18n'
 import './utils/ignore-warnings'
 import { auth, firestore } from "./services/firebase"
 import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text, TextInput, View } from 'react-native'
 import { enableScreens } from 'react-native-screens'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import { DateTime } from 'luxon'
@@ -29,6 +29,7 @@ enableScreens()
 const blue = "blue"
 
 function App() {
+  const [amount, onChangeAmount] = React.useState('Dollar amount')
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = React.useState(true)
   const [user, setUser] = React.useState()
@@ -51,22 +52,28 @@ function App() {
   }
 
   const addTransaction = ({ uid }) => () => {
-    console.log("add Transaction", uid)
-    firestore()
-      .collection('Users')
-      .doc(uid)
-      .collection("transactions")
-      .add({
-        calenderId: DateTime.local().toISODate(),
-        amount: 1000,
-        date: DateTime.local().toISO()
-      })
-      .then(() => {
-        console.log('User added!')
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    const trueAmount = Number(amount)
+    console.log(trueAmount)
+    if (!isNaN(trueAmount)) {
+      console.log("add Transaction", uid)
+      firestore()
+        .collection('users')
+        .doc(uid)
+        .collection("transactions")
+        .add({
+          calenderId: DateTime.local().toISODate(),
+          amount: 1000,
+          date: DateTime.local().toISO()
+        })
+        .then(() => {
+          console.log('Transaction added!')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      console.log("Fail")
+    }
   }
 
   if (initializing) return null
@@ -88,8 +95,13 @@ function App() {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>
         <Text style={{ fontSize: 24, fontWeight: "700", textAlign: "center" }}>Create Transaction</Text>
+        <TextInput
+          style={{ width: "60%", marginTop: 12, borderRadius: 6, paddingTop: 8, paddingBottom: 8, paddingLeft: 12, paddingRight: 12, height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={string => onChangeAmount(string)}
+          value={amount}
+        />
         <Pressable style={{ marginTop: 18, padding: 18, borderRadius: 6, borderColor: "#21262d", borderWidth: 1 }} onPress={addTransaction(user)}>
-          <Text style={{ fontSize: 15, fontWeight: "700" }}>Create</Text>
+          <Text style={{ fontSize: 15, fontWeight: "700" }}>Add Transaction</Text>
         </Pressable>
         <Pressable style={{ marginTop: 18, padding: 18, borderRadius: 6, borderColor: "#21262d", borderWidth: 1 }} onPress={logout}>
           <Text style={{ fontSize: 15, fontWeight: "600" }}>Logout</Text>
