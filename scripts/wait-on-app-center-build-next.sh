@@ -1,7 +1,7 @@
 export MOBILE_CENTER_CURRENT_APP=MattRybin/TestApp-1
 function check {
 INPUT=$(appcenter build branches list --output json)
-STATUS=$(echo $INPUT | jq --raw-output "[.[] | {buildNumber,status,result} | select(.status==\"completed\") | select(.buildNumber==\"$1\") | select(.sourceBranch==\"next\")]")
+STATUS=$(echo $INPUT | jq --raw-output "[.[] | {buildNumber,status,result,sourceBranch} | select(.status==\"completed\") | select(.buildNumber==\"$1\") | select(.sourceBranch==\"next\")]")
 if [ "$STATUS" == "[]" ]; then
     echo "Waiting on build number: $1"
     false
